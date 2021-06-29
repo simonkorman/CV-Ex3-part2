@@ -316,10 +316,10 @@ def draw_box(ax, box):
     ax.add_patch(rect)
 
 
-def get_shapes_loader(batch_sz):
-  train_dt = ShapeDataset(100)
-  val_dt = ShapeDataset(100)
-  test_dt = ShapeDataset(100)
+def get_shapes_loader(batch_sz, train_samples=100, val_samples=48, test_samples=84)
+  train_dt = ShapeDataset(train_samples)
+  val_dt = ShapeDataset(val_samples)
+  test_dt = ShapeDataset(test_samples)
   train_loader = torch.utils.data.DataLoader(train_dt, batch_size=batch_sz, shuffle=True, num_workers=0, collate_fn=collate_fn)
   val_loader = torch.utils.data.DataLoader(val_dt, batch_size=batch_sz, shuffle=True, num_workers=0, collate_fn=collate_fn)
   test_loader = torch.utils.data.DataLoader(test_dt, batch_size=batch_sz, shuffle=True, num_workers=0, collate_fn=collate_fn)
