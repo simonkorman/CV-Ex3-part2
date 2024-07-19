@@ -197,7 +197,7 @@ class ShapeDataset(torch.utils.data.Dataset):
                               (x+ct[2], y+st[2]),
                               ]], dtype=np.int32)
           cv2.fillPoly(image, points, color)
-          box = [min(y+st), min(x+ct), max(y+st), max(x+ct)]
+          box = [min(x+ct), min(y+st), max(x+ct), max(y+st)]
       return image, box
 
 
