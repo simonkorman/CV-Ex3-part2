@@ -105,10 +105,6 @@ class ShapeDataset(torch.utils.data.Dataset):
       self.id_to_img_map[i] = i
 
     self.contiguous_category_id_to_json_id = { 0:0 ,1:1, 2:2, 3:3 }
-      
-    print('-----------------------------')
-    print('-------   V 15   ------------')
-    print('-----------------------------')
 
   def random_shape(self, height, width):
     """Generates specifications of a random shape that lies within
@@ -195,10 +191,10 @@ class ShapeDataset(torch.utils.data.Dataset):
                               ]], dtype=np.int32)
           cv2.fillPoly(image, points, color)
           box = [min(x+ct), min(y+st), max(x+ct), max(y+st)]
-      print('====')
-      print('shape',shape,'x',x,'y',y,'s',s)
-      print('points',points)
-      print('box',box)
+      # print('====')
+      # print('shape',shape,'x',x,'y',y,'s',s)
+      # print('points',points)
+      # print('box',box)
       return image, box
 
 
@@ -215,13 +211,13 @@ class ShapeDataset(torch.utils.data.Dataset):
     mask = mask * bg_color.astype(np.uint8)
     
     boxes = []
-    print('++++++++++++++++ load_mask ++++++++++++++++++++++++')
+    # print('++++++++++++++++ load_mask ++++++++++++++++++++++++')
     for shape, color, dims in info['shapes']:
         # mask[:, :, i:i+1], box = self.draw_shape(mask[:, :, i:i+1].copy(), shape, dims, 1)
         mask, box = self.draw_shape(mask, shape, dims, color)
         boxes.append(box)
-        print('draw box',box)
-    print('+++++++++++++++++++++++++++++++++++++++++++++++++++')
+        # print('draw box',box)
+    # print('+++++++++++++++++++++++++++++++++++++++++++++++++++')
 
         
     # Handle occlusions
@@ -254,7 +250,7 @@ class ShapeDataset(torch.utils.data.Dataset):
     in this case it generates the image on the fly from the
     specs in image_info.
     """
-    print('----------------------------------------------------------------------------------- item', idx, '----------')
+    # print('----------------------------------------------------------------------------------- item', idx, '----------')
     image = Image.fromarray(self.load_image(idx))
     mask, labels, boxes = self.load_mask(idx)
     
@@ -369,9 +365,7 @@ def get_shapes_loader(batch_sz, train_samples=100, val_samples=48, test_samples=
   test_loader = torch.utils.data.DataLoader(test_dt, batch_size=batch_sz, shuffle=True, num_workers=0, collate_fn=collate_fn)
 
   print('-----------------------------')
-  print('-----------------------------')
   print('-------   V 21   ------------')
-  print('-----------------------------')
   print('-----------------------------')
 
   return train_loader, val_loader, test_loader
