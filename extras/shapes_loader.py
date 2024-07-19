@@ -13,9 +13,6 @@ def collate_fn(batch):
     return tuple(zip(*batch))
 
 
-
-
-
 def non_max_suppression(boxes, scores, threshold):
     """Performs non-maximum suppression and returns indices of kept boxes.
     boxes: [N, (y1, x1, y2, x2)]. Notice that (y2, x2) lays outside the box.
@@ -198,6 +195,7 @@ class ShapeDataset(torch.utils.data.Dataset):
                               ]], dtype=np.int32)
           cv2.fillPoly(image, points, color)
           box = [min(x+ct), min(y+st), max(x+ct), max(y+st)]
+      print('====')
       print('shape',shape,'x',x,'y',y,'s',s)
       print('points',points)
       print('box',box)
@@ -214,11 +212,13 @@ class ShapeDataset(torch.utils.data.Dataset):
     mask = np.zeros([info['height'], info['width'], count], dtype=np.uint8)
     
     boxes = []
-    
+    print('++++++++++++++++ load_mask ++++++++++++++++++++++++')
     for i, (shape, _, dims) in enumerate(info['shapes']):
         mask[:, :, i:i+1], box = self.draw_shape(mask[:, :, i:i+1].copy(),
                                             shape, dims, 1)
         boxes.append(box)
+        print('draw box',box)
+
         
     # Handle occlusions
     occlusion = np.logical_not(mask[:, :, -1]).astype(np.uint8)
@@ -366,7 +366,7 @@ def get_shapes_loader(batch_sz, train_samples=100, val_samples=48, test_samples=
 
   print('-----------------------------')
   print('-----------------------------')
-  print('-------   V 19   ------------')
+  print('-------   V 20   ------------')
   print('-----------------------------')
   print('-----------------------------')
 
