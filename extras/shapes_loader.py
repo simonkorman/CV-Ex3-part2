@@ -197,7 +197,7 @@ class ShapeDataset(torch.utils.data.Dataset):
                               (x+ct[2], y+st[2]),
                               ]], dtype=np.int32)
           cv2.fillPoly(image, points, color)
-          box = [min(x+ct), min(y+st), max(x+ct), max(y+st)]
+          box = [min(y+st), min(x+ct), max(y+st), max(x+ct)]
       return image, box
 
 
@@ -362,7 +362,7 @@ def get_shapes_loader(batch_sz, train_samples=100, val_samples=48, test_samples=
 
   print('-----------------------------')
   print('-----------------------------')
-  print('-------   V 16   ------------')
+  print('-------   V 17   ------------')
   print('-----------------------------')
   print('-----------------------------')
 
