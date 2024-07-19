@@ -209,8 +209,10 @@ class ShapeDataset(torch.utils.data.Dataset):
     info = self.image_info[image_id]
     shapes = info['shapes']
     count = len(shapes)
-    mask = np.zeros([info['height'], info['width'], count], dtype=np.uint8)
-    mask = np.zeros([info['height'], info['width'], 3], dtype=np.uint8)
+    info = self.image_info[image_id]
+    bg_color = np.array(info['bg_color']).reshape([1, 1, 3])
+    mask = np.ones([info['height'], info['width'], 3], dtype=np.uint8)
+    mask = mask * bg_color.astype(np.uint8)
     
     boxes = []
     print('++++++++++++++++ load_mask ++++++++++++++++++++++++')
