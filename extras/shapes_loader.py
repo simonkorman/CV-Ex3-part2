@@ -86,7 +86,7 @@ class ShapeDataset(torch.utils.data.Dataset):
     
     # Class Names: Note that the ids start from 1, not 0. This repo uses the index 0 for background
     # self.class_names = {"square": 1, "circle": 2, "triangle": 3}
-    self.class_names = {"quad_rand": 1, "triangle_rand": 2, "circle": 3}
+    self.class_names = {"quad_rand": 1, "triangle_rand": 2}
     
     # Add images
     # Generate random specifications of images (i.e. color and
@@ -110,7 +110,7 @@ class ShapeDataset(torch.utils.data.Dataset):
     self.contiguous_category_id_to_json_id = { 0:0 ,1:1, 2:2, 3:3 }
       
     print('-----------------------------')
-    print('-------   V 14   ------------')
+    print('-------   V 15   ------------')
     print('-----------------------------')
 
   def random_shape(self, height, width):
@@ -124,7 +124,7 @@ class ShapeDataset(torch.utils.data.Dataset):
     """
     # Shape
     # shape = random.choice(["square", "circle", "triangle"])
-    shape = random.choice(["quad_rand", "triangle_rand", "circle"])
+    shape = random.choice(["quad_rand", "triangle_rand"])
     # Color
     color = tuple([random.randint(0, 255) for _ in range(3)])
     # Center x, y
@@ -156,7 +156,7 @@ class ShapeDataset(torch.utils.data.Dataset):
 
     #   Apply non-max suppression with 0.3 threshold to avoid
     #   shapes covering each other
-      keep_ixs = non_max_suppression(np.array(boxes), np.arange(N), 0.3)
+      keep_ixs = non_max_suppression(np.array(boxes), np.arange(N), 0.2)
       shapes = [s for i, s in enumerate(shapes) if i in keep_ixs]
       
       return bg_color, shapes
@@ -360,7 +360,7 @@ def get_shapes_loader(batch_sz, train_samples=100, val_samples=48, test_samples=
 
   print('-----------------------------')
   print('-----------------------------')
-  print('-------   V 14   ------------')
+  print('-------   V 16   ------------')
   print('-----------------------------')
   print('-----------------------------')
 
