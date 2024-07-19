@@ -106,7 +106,7 @@ class ShapeDataset(torch.utils.data.Dataset):
 
     self.contiguous_category_id_to_json_id = { 0:0 ,1:1, 2:2, 3:3 }
 
-  def random_shape(self, height, width):
+  def random_shape(self, height, width, bg_color):
     """Generates specifications of a random shape that lies within
     the given height and width boundaries.
     Returns a tuple of three values:
@@ -119,7 +119,11 @@ class ShapeDataset(torch.utils.data.Dataset):
     # shape = random.choice(["square", "circle", "triangle"])
     shape = random.choice(["quad_rand", "triangle_rand"])
     # Color
-    color = tuple([random.randint(0, 255) for _ in range(3)])
+    bg_c = np.array(bg_color)
+    color = np.random.randint(0, 255, 3)
+    while(np.mean(np.abs(bg_c-color)) < 100):
+        color = np.random.randint(0, 255, 3)     
+    color = tuple(color)
     # Center x, y
     buffer = 20
     y = random.randint(buffer, height - buffer - 1)
@@ -142,7 +146,7 @@ class ShapeDataset(torch.utils.data.Dataset):
       N = random.randint(1, 4)
       labels = {}
       for _ in range(N):
-          shape, color, dims = self.random_shape(height, width)
+          shape, color, dims = self.random_shape(height, width, bg_color)
           shapes.append((shape, color, dims))
           x, y, s = dims
           boxes.append([y-s, x-s, y+s, x+s])
