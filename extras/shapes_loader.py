@@ -179,9 +179,10 @@ class ShapeDataset(torch.utils.data.Dataset):
                               ]], dtype=np.int32)
           cv2.fillPoly(image, points, color)
       elif shape == "triangle_rand":
-          base_theta = np.random.uniform(0,np.pi,1)
-          shifts = np.random.uniform(-np.pi/16,np.pi/16,3)
-          thetas = np.array([0,np.pi/3,2*np.pi/3]) + base_theta
+          PI = np.pi
+          base_theta = np.random.uniform(0,2*PI,1)
+          shifts = np.random.uniform(-(PI)/16,PI/16,3)
+          thetas = np.array([0,PI/3,2*PI/3]) + base_theta
           ct = np.cos(thetas)*s
           st = np.sin(thetas)*s
           points = np.array([[(x+ct[0], y+st[0]),
@@ -353,7 +354,7 @@ def get_shapes_loader(batch_sz, train_samples=100, val_samples=48, test_samples=
 
   print('-----------------------------')
   print('-----------------------------')
-  print('-------   V 11   ------------')
+  print('-------   V 12   ------------')
   print('-----------------------------')
   print('-----------------------------')
 
