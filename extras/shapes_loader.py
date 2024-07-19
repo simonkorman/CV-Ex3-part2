@@ -153,19 +153,6 @@ class ShapeDataset(torch.utils.data.Dataset):
       keep_ixs = non_max_suppression(np.array(boxes), np.arange(N), 0.3)
       shapes = [s for i, s in enumerate(shapes) if i in keep_ixs]
       
-      print('RANDOM IMAGE')
-      print('RANDOM IMAGE')
-      print('RANDOM IMAGE')
-      print('RANDOM IMAGE')
-      print('RANDOM IMAGE')
-      print('RANDOM IMAGE')
-      print('RANDOM IMAGE')
-      print('RANDOM IMAGE')
-      print('RANDOM IMAGE')
-      print('RANDOM IMAGE')
-      print('RANDOM IMAGE')
-      print('RANDOM IMAGE')
-      print('RANDOM IMAGE')
       return bg_color, shapes
   
   
@@ -184,7 +171,7 @@ class ShapeDataset(torch.utils.data.Dataset):
                               ]], dtype=np.int32)
           cv2.fillPoly(image, points, color)
       elif shape == "quad_rand":
-          shifts = np.random.uniform(-1,1,4)*s          
+          shifts = np.random.uniform(-1,1,4)*s/2          
           points = np.array([[(x-s, y+shifts[0]),
                               (x+shifts[1], y+s),
                               (x+s, y+shifts[2]),
@@ -192,10 +179,11 @@ class ShapeDataset(torch.utils.data.Dataset):
                               ]], dtype=np.int32)
           cv2.fillPoly(image, points, color)
       elif shape == "triangle_rand":
-          thetas = np.random.uniform(0,np.pi,3)
-          thetas = np.sort(thetas)
+          base_theta = np.random.uniform(0,np.pi,1)
+          shifts = np.random.uniform(-np.pi/16,np.pi/16,3)
+          thetas = np.array([0,pi/3,2*pi/3]) + base_theta
           ct = np.cos(thetas)*s
-          st = np.cos(thetas)*s
+          st = np.sin(thetas)*s
           points = np.array([[(x+ct[0], y+st[0]),
                               (x+ct[1], y+st[1]),
                               (x+ct[2], y+st[2]),
