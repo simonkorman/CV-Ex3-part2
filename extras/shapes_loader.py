@@ -210,12 +210,13 @@ class ShapeDataset(torch.utils.data.Dataset):
     shapes = info['shapes']
     count = len(shapes)
     mask = np.zeros([info['height'], info['width'], count], dtype=np.uint8)
+    mask = np.zeros([info['height'], info['width'], 3], dtype=np.uint8)
     
     boxes = []
     print('++++++++++++++++ load_mask ++++++++++++++++++++++++')
     for i, (shape, _, dims) in enumerate(info['shapes']):
-        mask[:, :, i:i+1], box = self.draw_shape(mask[:, :, i:i+1].copy(),
-                                            shape, dims, 1)
+        # mask[:, :, i:i+1], box = self.draw_shape(mask[:, :, i:i+1].copy(), shape, dims, 1)
+        mask, box = self.draw_shape(mask, shape, dims, 1)
         boxes.append(box)
         print('draw box',box)
     print('+++++++++++++++++++++++++++++++++++++++++++++++++++')
@@ -253,7 +254,7 @@ class ShapeDataset(torch.utils.data.Dataset):
     """
     print('----------------------------------------------------------------------------------- item', idx, '----------')
     image = Image.fromarray(self.load_image(idx))
-    masks, labels, boxes = self.load_mask(idx)
+    mask, labels, boxes = self.load_mask(idx)
     
     # # create a BoxList from the boxes
     # boxlist = BoxList(boxes, image.size, mode="xyxy")
@@ -275,7 +276,7 @@ class ShapeDataset(torch.utils.data.Dataset):
     target['bounding_box'] = torch.tensor(boxes)
     target['labels'] = torch.tensor(labels)
     
-    return torch.tensor(np.asarray(masks)).permute(2,0,1), target
+    return torch.tensor(np.asarray(mask)).permute(2,0,1), target
   
   
   def __len__(self):
