@@ -168,8 +168,8 @@ class ShapeDataset(torch.utils.data.Dataset):
       x, y, s = dims
       if shape == 'square':
           cv2.rectangle(image, (x-s, y-s), (x+s, y+s), color, -1)
-#      elif shape == "circle":
-#          cv2.circle(image, (x, y), s, color, -1)
+      elif shape == "circle":
+          cv2.circle(image, (x, y), s, color, -1)
       elif shape == "triangle":
           points = np.array([[(x, y-s),
                               (x-s/math.sin(math.radians(60)), y+s),
