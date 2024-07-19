@@ -190,7 +190,7 @@ class ShapeDataset(torch.utils.data.Dataset):
       elif shape == "triangle_rand":
           base_theta = np.random.uniform(0,np.pi,1)
           shifts = np.random.uniform(-np.pi/16,np.pi/16,3)
-          thetas = np.array([0,pi/3,2*pi/3]) + base_theta
+          thetas = np.array([0,np.pi/3,2*np.pi/3]) + base_theta
           ct = np.cos(thetas)*s
           st = np.sin(thetas)*s
           points = np.array([[(x+ct[0], y+st[0]),
