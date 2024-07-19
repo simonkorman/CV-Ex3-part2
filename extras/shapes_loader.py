@@ -218,6 +218,7 @@ class ShapeDataset(torch.utils.data.Dataset):
                                             shape, dims, 1)
         boxes.append(box)
         print('draw box',box)
+    print('+++++++++++++++++++++++++++++++++++++++++++++++++++')
 
         
     # Handle occlusions
@@ -250,7 +251,7 @@ class ShapeDataset(torch.utils.data.Dataset):
     in this case it generates the image on the fly from the
     specs in image_info.
     """
-    print('--------- item', idx, '----------')
+    print('----------------------------------------------------------------------------------- item', idx, '----------')
     image = Image.fromarray(self.load_image(idx))
     masks, labels, boxes = self.load_mask(idx)
     
