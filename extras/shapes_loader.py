@@ -106,15 +106,6 @@ class ShapeDataset(torch.utils.data.Dataset):
 
     self.contiguous_category_id_to_json_id = { 0:0 ,1:1, 2:2, 3:3 }
 
-    print('-----------------------------')
-    print('-----------------------------')
-    print('-----------------------------')
-    print('-----------------------------')
-    print('-------   V 10   ------------')
-    print('-----------------------------')
-    print('-----------------------------')
-    print('-----------------------------')
-    print('-----------------------------')
 
   def random_shape(self, height, width):
     """Generates specifications of a random shape that lies within
@@ -359,5 +350,11 @@ def get_shapes_loader(batch_sz, train_samples=100, val_samples=48, test_samples=
   train_loader = torch.utils.data.DataLoader(train_dt, batch_size=batch_sz, shuffle=True, num_workers=0, collate_fn=collate_fn)
   val_loader = torch.utils.data.DataLoader(val_dt, batch_size=batch_sz, shuffle=True, num_workers=0, collate_fn=collate_fn)
   test_loader = torch.utils.data.DataLoader(test_dt, batch_size=batch_sz, shuffle=True, num_workers=0, collate_fn=collate_fn)
+
+  print('-----------------------------')
+  print('-----------------------------')
+  print('-------   V 11   ------------')
+  print('-----------------------------')
+  print('-----------------------------')
 
   return train_loader, val_loader, test_loader
