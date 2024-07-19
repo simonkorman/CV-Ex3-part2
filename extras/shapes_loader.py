@@ -86,7 +86,7 @@ class ShapeDataset(torch.utils.data.Dataset):
     
     # Class Names: Note that the ids start from 1, not 0. This repo uses the index 0 for background
     # self.class_names = {"square": 1, "circle": 2, "triangle": 3}
-    self.class_names = {"quad_rand": 1, "triangle_rand": 2}
+    self.class_names = {"quad_rand": 1, "triangle_rand": 2, "circle": 3}
     
     # Add images
     # Generate random specifications of images (i.e. color and
@@ -124,7 +124,7 @@ class ShapeDataset(torch.utils.data.Dataset):
     """
     # Shape
     # shape = random.choice(["square", "circle", "triangle"])
-    shape = random.choice(["quad_rand", "triangle_rand"])
+    shape = random.choice(["quad_rand", "triangle_rand", "circle"])
     # Color
     color = tuple([random.randint(0, 255) for _ in range(3)])
     # Center x, y
