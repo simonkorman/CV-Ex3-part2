@@ -166,6 +166,7 @@ class ShapeDataset(torch.utils.data.Dataset):
       """Draws a shape from the given specs."""
       # Get the center x, y and the size s
       x, y, s = dims
+      box = [ x-s, y-s, x+s, y+s]
       if shape == 'square':
           cv2.rectangle(image, (x-s, y-s), (x+s, y+s), color, -1)
       elif shape == "circle":
@@ -196,7 +197,8 @@ class ShapeDataset(torch.utils.data.Dataset):
                               (x+ct[2], y+st[2]),
                               ]], dtype=np.int32)
           cv2.fillPoly(image, points, color)
-      return image, [ x-s, y-s, x+s, y+s]
+          box = [min(x+ct), min(y+st), max(x+ct), max(y+st)]
+      return image, box
 
 
   def load_mask(self, image_id):
