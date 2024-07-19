@@ -250,6 +250,7 @@ class ShapeDataset(torch.utils.data.Dataset):
     in this case it generates the image on the fly from the
     specs in image_info.
     """
+    print('--------- item', idx, '----------')
     image = Image.fromarray(self.load_image(idx))
     masks, labels, boxes = self.load_mask(idx)
     
