@@ -82,7 +82,8 @@ class ShapeDataset(torch.utils.data.Dataset):
     self.logger = logging.getLogger(__name__)
     
     # Class Names: Note that the ids start from 1, not 0. This repo uses the index 0 for background
-    self.class_names = {"square": 1, "circle": 2, "triangle": 3}
+    # self.class_names = {"square": 1, "circle": 2, "triangle": 3}
+    self.class_names = {"quad_rand": 1, "triangle_rand": 2}
     
     # Add images
     # Generate random specifications of images (i.e. color and
@@ -116,7 +117,8 @@ class ShapeDataset(torch.utils.data.Dataset):
                         and location. Differs per shape type.
     """
     # Shape
-    shape = random.choice(["square", "circle", "triangle"])
+    # shape = random.choice(["square", "circle", "triangle"])
+    shape = random.choice(["quad_rand", "triangle_rand"])
     # Color
     color = tuple([random.randint(0, 255) for _ in range(3)])
     # Center x, y
@@ -151,6 +153,19 @@ class ShapeDataset(torch.utils.data.Dataset):
       keep_ixs = non_max_suppression(np.array(boxes), np.arange(N), 0.3)
       shapes = [s for i, s in enumerate(shapes) if i in keep_ixs]
       
+      print('RANDOM IMAGE')
+      print('RANDOM IMAGE')
+      print('RANDOM IMAGE')
+      print('RANDOM IMAGE')
+      print('RANDOM IMAGE')
+      print('RANDOM IMAGE')
+      print('RANDOM IMAGE')
+      print('RANDOM IMAGE')
+      print('RANDOM IMAGE')
+      print('RANDOM IMAGE')
+      print('RANDOM IMAGE')
+      print('RANDOM IMAGE')
+      print('RANDOM IMAGE')
       return bg_color, shapes
   
   
@@ -160,12 +175,30 @@ class ShapeDataset(torch.utils.data.Dataset):
       x, y, s = dims
       if shape == 'square':
           cv2.rectangle(image, (x-s, y-s), (x+s, y+s), color, -1)
-      elif shape == "circle":
-          cv2.circle(image, (x, y), s, color, -1)
+#      elif shape == "circle":
+#          cv2.circle(image, (x, y), s, color, -1)
       elif shape == "triangle":
           points = np.array([[(x, y-s),
                               (x-s/math.sin(math.radians(60)), y+s),
                               (x+s/math.sin(math.radians(60)), y+s),
+                              ]], dtype=np.int32)
+          cv2.fillPoly(image, points, color)
+      elif shape == "quad_rand":
+          shifts = np.random.uniform(-1,1,4)*s          
+          points = np.array([[(x-s, y+shifts[0]),
+                              (x+shifts[1], y+s),
+                              (x+s, y+shifts[2]),
+                              (x-shifts[1], y-s),
+                              ]], dtype=np.int32)
+          cv2.fillPoly(image, points, color)
+      elif shape == "triangle_rand":
+          thetas = np.random.uniform(0,np.pi,3)
+          thetas = np.sort(thetas)
+          ct = np.cos(thetas)*s
+          st = np.cos(thetas)*s
+          points = np.array([[(x+ct[0], y+st[0]),
+                              (x+ct[1], y+st[1]),
+                              (x+ct[2], y+st[2]),
                               ]], dtype=np.int32)
           cv2.fillPoly(image, points, color)
       return image, [ x-s, y-s, x+s, y+s]
@@ -281,7 +314,13 @@ class ShapeDataset(torch.utils.data.Dataset):
             category_id = 2
           elif shape == "triangle":
             category_id = 3
-          
+          if shape == "square":
+            category_id = 1
+          elif shape == "triangle_rand":
+            category_id = 2
+          elif shape == "quad_rand":
+            category_id = 3         
+            
           x, y, s = dims
           bbox = [ x - s, y - s, x+s, y +s ] 
           area = (bbox[0] - bbox[2]) * (bbox[1] - bbox[3])
