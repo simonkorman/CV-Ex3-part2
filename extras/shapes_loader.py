@@ -121,7 +121,7 @@ class ShapeDataset(torch.utils.data.Dataset):
     # Color
     bg_c = np.array(bg_color)
     color = np.random.randint(0, 255, 3)
-    while(np.mean(np.abs(bg_c-color)) < 100):
+    while(np.mean(np.abs(bg_c-color)) < 60):
         color = np.random.randint(0, 255, 3)     
     color = tuple(color.tolist())
     # Center x, y
