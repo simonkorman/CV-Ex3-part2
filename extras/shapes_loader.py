@@ -13,6 +13,9 @@ def collate_fn(batch):
     return tuple(zip(*batch))
 
 
+
+
+
 def non_max_suppression(boxes, scores, threshold):
     """Performs non-maximum suppression and returns indices of kept boxes.
     boxes: [N, (y1, x1, y2, x2)]. Notice that (y2, x2) lays outside the box.
