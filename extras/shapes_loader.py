@@ -13,9 +13,6 @@ def collate_fn(batch):
     return tuple(zip(*batch))
 
 
-
-
-
 def non_max_suppression(boxes, scores, threshold):
     """Performs non-maximum suppression and returns indices of kept boxes.
     boxes: [N, (y1, x1, y2, x2)]. Notice that (y2, x2) lays outside the box.
@@ -85,8 +82,7 @@ class ShapeDataset(torch.utils.data.Dataset):
     self.logger = logging.getLogger(__name__)
     
     # Class Names: Note that the ids start from 1, not 0. This repo uses the index 0 for background
-    # self.class_names = {"square": 1, "circle": 2, "triangle": 3}
-    self.class_names = {"quad_rand": 1, "triangle_rand": 2}
+    self.class_names = {"square": 1, "circle": 2, "triangle": 3}
     
     # Add images
     # Generate random specifications of images (i.e. color and
@@ -108,10 +104,7 @@ class ShapeDataset(torch.utils.data.Dataset):
       self.id_to_img_map[i] = i
 
     self.contiguous_category_id_to_json_id = { 0:0 ,1:1, 2:2, 3:3 }
-      
-    print('-----------------------------')
-    print('-------   V 13   ------------')
-    print('-----------------------------')
+    
 
   def random_shape(self, height, width):
     """Generates specifications of a random shape that lies within
@@ -123,8 +116,7 @@ class ShapeDataset(torch.utils.data.Dataset):
                         and location. Differs per shape type.
     """
     # Shape
-    # shape = random.choice(["square", "circle", "triangle"])
-    shape = random.choice(["quad_rand", "triangle_rand"])
+    shape = random.choice(["square", "circle", "triangle"])
     # Color
     color = tuple([random.randint(0, 255) for _ in range(3)])
     # Center x, y
@@ -168,36 +160,12 @@ class ShapeDataset(torch.utils.data.Dataset):
       x, y, s = dims
       if shape == 'square':
           cv2.rectangle(image, (x-s, y-s), (x+s, y+s), color, -1)
-#      elif shape == "circle":
-#          cv2.circle(image, (x, y), s, color, -1)
+      elif shape == "circle":
+          cv2.circle(image, (x, y), s, color, -1)
       elif shape == "triangle":
           points = np.array([[(x, y-s),
                               (x-s/math.sin(math.radians(60)), y+s),
                               (x+s/math.sin(math.radians(60)), y+s),
-                              ]], dtype=np.int32)
-          cv2.fillPoly(image, points, color)
-      elif shape == "quad_rand":
-          shifts = np.random.uniform(-1,1,4)*s/3          
-          points = np.array([[(x-s, y+shifts[0]),
-                              (x+shifts[1], y+s),
-                              (x+s, y+shifts[2]),
-                              (x-shifts[1], y-s),
-                              ]], dtype=np.int32)
-          cv2.fillPoly(image, points, color)
-      elif shape == "triangle_rand":
-          PI = np.pi
-          print('=============',PI)
-          print('=============',PI)
-          print('=============',PI)
-          print('=============',PI)
-          base_theta = np.random.uniform(0,2*PI,1)
-          shifts = np.random.uniform(-(PI)/16,PI/16,3)
-          thetas = np.array([0,PI/3,2*PI/3]) + base_theta
-          ct = np.cos(thetas)*s
-          st = np.sin(thetas)*s
-          points = np.array([[(x+ct[0], y+st[0]),
-                              (x+ct[1], y+st[1]),
-                              (x+ct[2], y+st[2]),
                               ]], dtype=np.int32)
           cv2.fillPoly(image, points, color)
       return image, [ x-s, y-s, x+s, y+s]
@@ -313,13 +281,7 @@ class ShapeDataset(torch.utils.data.Dataset):
             category_id = 2
           elif shape == "triangle":
             category_id = 3
-          if shape == "square":
-            category_id = 1
-          elif shape == "triangle_rand":
-            category_id = 2
-          elif shape == "quad_rand":
-            category_id = 3         
-            
+          
           x, y, s = dims
           bbox = [ x - s, y - s, x+s, y +s ] 
           area = (bbox[0] - bbox[2]) * (bbox[1] - bbox[3])
@@ -361,11 +323,5 @@ def get_shapes_loader(batch_sz, train_samples=100, val_samples=48, test_samples=
   train_loader = torch.utils.data.DataLoader(train_dt, batch_size=batch_sz, shuffle=True, num_workers=0, collate_fn=collate_fn)
   val_loader = torch.utils.data.DataLoader(val_dt, batch_size=batch_sz, shuffle=True, num_workers=0, collate_fn=collate_fn)
   test_loader = torch.utils.data.DataLoader(test_dt, batch_size=batch_sz, shuffle=True, num_workers=0, collate_fn=collate_fn)
-
-  print('-----------------------------')
-  print('-----------------------------')
-  print('-------   V 13   ------------')
-  print('-----------------------------')
-  print('-----------------------------')
 
   return train_loader, val_loader, test_loader
