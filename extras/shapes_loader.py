@@ -83,7 +83,7 @@ class ShapeDataset(torch.utils.data.Dataset):
     
     # Class Names: Note that the ids start from 1, not 0. This repo uses the index 0 for background
     # self.class_names = {"square": 1, "circle": 2, "triangle": 3}
-    self.class_names = {"quad_rand": 1, "triangle_rand": 2}
+    self.class_names = {"quad_rand": 0, "triangle_rand": 1}
     
     # Add images
     # Generate random specifications of images (i.e. color and
@@ -302,7 +302,7 @@ class ShapeDataset(torch.utils.data.Dataset):
       
       # Define categories
       categories = [ {"id": 1, "name": "square"}, {"id": 2, "name": "circle"}, {"id": 3, "name": "triangle"}]
-
+      categories = [ {"id": 0, "name": "quad_rand"}, {"id": 1, "name": "triangle_rand"}]
 
       i = 1
       ann_id = 0
@@ -314,17 +314,17 @@ class ShapeDataset(torch.utils.data.Dataset):
         for (shape, color, dims) in d['shapes']:
           
           if shape == "square":
-            category_id = 1
+            category_id = 77
           elif shape == "circle":
-            category_id = 2
+            category_id = 66
           elif shape == "triangle":
-            category_id = 3
+            category_id = 55
           if shape == "square":
-            category_id = 1
+            category_id = 44
           elif shape == "triangle_rand":
-            category_id = 2
+            category_id = 1
           elif shape == "quad_rand":
-            category_id = 3         
+            category_id = 0         
             
           x, y, s = dims
           bbox = [ x - s, y - s, x+s, y +s ] 
@@ -369,7 +369,7 @@ def get_shapes_loader(batch_sz, train_samples=100, val_samples=48, test_samples=
   test_loader = torch.utils.data.DataLoader(test_dt, batch_size=batch_sz, shuffle=True, num_workers=0, collate_fn=collate_fn)
 
   print('-----------------------------')
-  print('-------   V 21   ------------')
+  print('-------   V 22   ------------')
   print('-----------------------------')
 
   return train_loader, val_loader, test_loader
