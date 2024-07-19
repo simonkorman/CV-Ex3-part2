@@ -108,7 +108,10 @@ class ShapeDataset(torch.utils.data.Dataset):
       self.id_to_img_map[i] = i
 
     self.contiguous_category_id_to_json_id = { 0:0 ,1:1, 2:2, 3:3 }
-
+      
+    print('-----------------------------')
+    print('-------   V 13   ------------')
+    print('-----------------------------')
 
   def random_shape(self, height, width):
     """Generates specifications of a random shape that lies within
@@ -183,6 +186,10 @@ class ShapeDataset(torch.utils.data.Dataset):
           cv2.fillPoly(image, points, color)
       elif shape == "triangle_rand":
           PI = np.pi
+          print('=============',PI)
+          print('=============',PI)
+          print('=============',PI)
+          print('=============',PI)
           base_theta = np.random.uniform(0,2*PI,1)
           shifts = np.random.uniform(-(PI)/16,PI/16,3)
           thetas = np.array([0,PI/3,2*PI/3]) + base_theta
@@ -357,7 +364,7 @@ def get_shapes_loader(batch_sz, train_samples=100, val_samples=48, test_samples=
 
   print('-----------------------------')
   print('-----------------------------')
-  print('-------   V 12   ------------')
+  print('-------   V 13   ------------')
   print('-----------------------------')
   print('-----------------------------')
 
