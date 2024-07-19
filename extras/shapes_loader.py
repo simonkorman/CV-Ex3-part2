@@ -216,9 +216,9 @@ class ShapeDataset(torch.utils.data.Dataset):
     
     boxes = []
     print('++++++++++++++++ load_mask ++++++++++++++++++++++++')
-    for i, (shape, _, dims) in enumerate(info['shapes']):
+    for shape, color, dims in info['shapes']:
         # mask[:, :, i:i+1], box = self.draw_shape(mask[:, :, i:i+1].copy(), shape, dims, 1)
-        mask, box = self.draw_shape(mask, shape, dims, 1)
+        mask, box = self.draw_shape(mask, shape, dims, color)
         boxes.append(box)
         print('draw box',box)
     print('+++++++++++++++++++++++++++++++++++++++++++++++++++')
