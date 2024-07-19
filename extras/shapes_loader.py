@@ -105,7 +105,16 @@ class ShapeDataset(torch.utils.data.Dataset):
       self.id_to_img_map[i] = i
 
     self.contiguous_category_id_to_json_id = { 0:0 ,1:1, 2:2, 3:3 }
-    
+
+    print('-----------------------------')
+    print('-----------------------------')
+    print('-----------------------------')
+    print('-----------------------------')
+    print('-------   V 10   ------------')
+    print('-----------------------------')
+    print('-----------------------------')
+    print('-----------------------------')
+    print('-----------------------------')
 
   def random_shape(self, height, width):
     """Generates specifications of a random shape that lies within
@@ -171,7 +180,7 @@ class ShapeDataset(torch.utils.data.Dataset):
                               ]], dtype=np.int32)
           cv2.fillPoly(image, points, color)
       elif shape == "quad_rand":
-          shifts = np.random.uniform(-1,1,4)*s/2          
+          shifts = np.random.uniform(-1,1,4)*s/3          
           points = np.array([[(x-s, y+shifts[0]),
                               (x+shifts[1], y+s),
                               (x+s, y+shifts[2]),
