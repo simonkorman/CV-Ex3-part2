@@ -83,7 +83,7 @@ class ShapeDataset(torch.utils.data.Dataset):
     
     # Class Names: Note that the ids start from 1, not 0. This repo uses the index 0 for background
     # self.class_names = {"square": 1, "circle": 2, "triangle": 3}
-    self.class_names = {"quad_rand": 0, "triangle_rand": 1}
+    self.class_names = {"quad_rand": 0, "triangle_rand": 1, "circle": 2}
     
     # Add images
     # Generate random specifications of images (i.e. color and
@@ -117,7 +117,7 @@ class ShapeDataset(torch.utils.data.Dataset):
     """
     # Shape
     # shape = random.choice(["square", "circle", "triangle"])
-    shape = random.choice(["quad_rand", "triangle_rand"])
+    shape = random.choice(["quad_rand", "triangle_rand", "circle"])
     # Color
     bg_c = np.array(bg_color)
     color = np.random.randint(0, 255, 3)
@@ -302,7 +302,7 @@ class ShapeDataset(torch.utils.data.Dataset):
       
       # Define categories
       categories = [ {"id": 1, "name": "square"}, {"id": 2, "name": "circle"}, {"id": 3, "name": "triangle"}]
-      categories = [ {"id": 0, "name": "quad_rand"}, {"id": 1, "name": "triangle_rand"}]
+      categories = [ {"id": 0, "name": "quad_rand"}, {"id": 1, "name": "triangle_rand"}, {"id": 2, "name": "circle"}]
 
       i = 1
       ann_id = 0
@@ -316,7 +316,7 @@ class ShapeDataset(torch.utils.data.Dataset):
           if shape == "square":
             category_id = 77
           elif shape == "circle":
-            category_id = 66
+            category_id = 2
           elif shape == "triangle":
             category_id = 55
           if shape == "square":
