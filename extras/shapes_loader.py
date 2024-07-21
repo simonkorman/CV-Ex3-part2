@@ -145,14 +145,14 @@ class ShapeDataset(torch.utils.data.Dataset):
       boxes = []
       N = random.randint(3,8)
       labels = {}
-      print('-------------------------------------------')
-      print('bg_color',bg_color)
+      # print('-------------------------------------------')
+      # print('bg_color',bg_color)
       for i in range(N):
           shape, color, dims = self.random_shape(height, width, bg_color)
           shapes.append((shape, color, dims))
           x, y, s = dims
           boxes.append([y-s, x-s, y+s, x+s])
-          print('i color', i, color)
+          # print('i color', i, color)
 
     #   Apply non-max suppression with 0.2 threshold to avoid
     #   shapes covering each other
