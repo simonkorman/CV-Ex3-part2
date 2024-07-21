@@ -143,7 +143,7 @@ class ShapeDataset(torch.utils.data.Dataset):
       # bounding boxes
       shapes = []
       boxes = []
-      N = random.randint(1, 4)
+      N = random.randint(2,5)
       labels = {}
       for _ in range(N):
           shape, color, dims = self.random_shape(height, width, bg_color)
@@ -153,7 +153,7 @@ class ShapeDataset(torch.utils.data.Dataset):
 
     #   Apply non-max suppression with 0.3 threshold to avoid
     #   shapes covering each other
-      keep_ixs = non_max_suppression(np.array(boxes), np.arange(N), 0.2)
+      keep_ixs = non_max_suppression(np.array(boxes), np.arange(N), 0.3)
       shapes = [s for i, s in enumerate(shapes) if i in keep_ixs]
       
       return bg_color, shapes
