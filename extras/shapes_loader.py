@@ -242,13 +242,17 @@ class ShapeDataset(torch.utils.data.Dataset):
     in this case it generates the image on the fly from the
     specs in image_info.
     """
+    boxes = []
     info = self.image_info[image_id]
     bg_color = np.array(info['bg_color']).reshape([1, 1, 3])
     image = np.ones([info['height'], info['width'], 3], dtype=np.uint8)
     image = image * bg_color.astype(np.uint8)
     for shape, color, dims in info['shapes']:
-        image, _ = self.draw_shape(image, shape, dims, color)
-    return image
+        image, box = self.draw_shape(image, shape, dims, color)
+        boxes.append(box)        
+    class_ids = np.array([self.class_names[s[0]] for s in shapes])
+        
+    return image, class_ids.astype(np.int32), boxes
       
   def __getitem__(self, idx):
     
@@ -258,8 +262,9 @@ class ShapeDataset(torch.utils.data.Dataset):
     specs in image_info.
     """
     # print('----------------------------------------------------------------------------------- item', idx, '----------')
-    image = Image.fromarray(self.load_image(idx))
-    mask, labels, boxes = self.load_mask(idx)
+    # image = Image.fromarray(self.load_image(idx))
+    # mask, labels, boxes = self.load_mask(idx)
+    image, labels, boxes = self.load_mask(idx)
     
     # # create a BoxList from the boxes
     # boxlist = BoxList(boxes, image.size, mode="xyxy")
@@ -281,7 +286,7 @@ class ShapeDataset(torch.utils.data.Dataset):
     target['bounding_box'] = torch.tensor(boxes)
     target['labels'] = torch.tensor(labels)
     
-    return torch.tensor(np.asarray(image)).permute(2,0,1), torch.tensor(np.asarray(mask)).permute(2,0,1), target
+    return torch.tensor(np.asarray(image)).permute(2,0,1), target
   
   
   def __len__(self):
