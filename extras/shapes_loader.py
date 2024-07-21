@@ -264,7 +264,7 @@ class ShapeDataset(torch.utils.data.Dataset):
     # print('----------------------------------------------------------------------------------- item', idx, '----------')
     # image = Image.fromarray(self.load_image(idx))
     # mask, labels, boxes = self.load_mask(idx)
-    image, labels, boxes = self.load_mask(idx)
+    image, labels, boxes = self.load_image(idx)
     
     # # create a BoxList from the boxes
     # boxlist = BoxList(boxes, image.size, mode="xyxy")
