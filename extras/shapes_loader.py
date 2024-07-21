@@ -244,6 +244,7 @@ class ShapeDataset(torch.utils.data.Dataset):
     """
     boxes = []
     info = self.image_info[image_id]
+    shapes = info['shapes']      
     bg_color = np.array(info['bg_color']).reshape([1, 1, 3])
     image = np.ones([info['height'], info['width'], 3], dtype=np.uint8)
     image = image * bg_color.astype(np.uint8)
