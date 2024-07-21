@@ -281,7 +281,7 @@ class ShapeDataset(torch.utils.data.Dataset):
     target['bounding_box'] = torch.tensor(boxes)
     target['labels'] = torch.tensor(labels)
     
-    return np.asarray(image), torch.tensor(np.asarray(mask)).permute(2,0,1), target
+    return torch.tensor(np.asarray(image)).permute(2,0,1), torch.tensor(np.asarray(mask)).permute(2,0,1), target
   
   
   def __len__(self):
